@@ -1,3 +1,30 @@
+<?php
+    if (isset($_GET['login'])) {
+        $db = mysqli_connect("localhost","djoco", "djoco", "djoco");
+
+        $login = htmlentities($_GET['login']);
+        $pswrd = htmlentities($_GET['pswrd']);
+        //$pswrd = password_hash($pswrd, PASSWORD_ARGON2I);
+
+        $sql = "SELECT login, paswrd FROM Utilisateur WHERE login = '$login' ";
+        $result = mysqli_query($db, $sql);
+        if (mysqli_num_rows($result) > 0) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                $Slogin = $row["login"];
+                $Spswrd = $row["paswrd"];
+            }
+            if ($Slogin != $login || $Spswrd != $pswrd) {
+                echo "<script>alert('connection impossible')</script>";
+            }else{
+                if ($Slogin == $login && $Spswrd == $pswrd) {
+                    echo "<script>alert('connection reussi')</script>";
+                }
+            }
+        }
+
+        mysqli_close($db);
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -7,52 +34,39 @@
         <link rel="stylesheet" href="./css/global.css">
         <link rel="stylesheet" href="./css/register.css">
 		<link rel="icon" type="image/png" sizes="16x16" href="./img/logo.png">
-        <title>Register</title>
+        <title>Login</title>
     </head>
 
     <body>
         <header id="header">
             <nav>
                 <img class="logo" src="img/logo.png"/>
-                <p id="tittle">Inscription</p>
+                <p id="tittle">Connection</p>
                 <div class="link">
-                    <a href="/index.html">HOME</a>
+                    <a href="./index.php">HOME</a>
                     <a href="#">CONTACT</a>
-                    <a href="/login.html">LOGIN</a>
+                     <a href="./register.php">Inscription</a>
                 </div>
             </nav>
         </header>
 
         <div class="container">
-            <form method="get">
+            <form method="GET">
                 <div>
                     <label for="login">Identifiant : </label>
                     <input type="text" name="login">
-                </div>
-    
-                <div>
-                    <label for="mail">Mail : </label>
-                    <input type="mail" name="mail">
-                </div>
-
-                <div>
-                    <label for="bday">Date de Naissance : </label>
-                    <input type="date" name="bday">
                 </div>
 
                 <div>
                     <label for="pswrd">Mot de Passe : </label>
                     <input type="password" name="pswrd">
                 </div>
-    
-                <div>
-                    <label for="pswrdc">Confirmation : </label>
-                    <input type="password" name="pswrdc">
-                </div>
                 
                 <div class="subm">
                     <input type="submit" value="Finaliser">
                 </div>
+
+
             </form>
         </div>
 <!--
