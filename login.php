@@ -18,6 +18,7 @@
             }else{
                 if ($Slogin == $login && $Spswrd == $pswrd) {
                     echo "<script>alert('connection reussi')</script>";
+                    session_start();
                 }
             }
         }
