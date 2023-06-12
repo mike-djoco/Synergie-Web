@@ -1,9 +1,9 @@
 <?php
-    if (isset($_GET['login'])) {
-        $db = mysqli_connect("localhost","djoco", "djoco", "djoco");
+    if (isset($_POST['login'])) {
+        $db = mysqli_connect("dwarves.iut-fbleau.fr","djoco", "djoco", "djoco");
 
-        $login = htmlentities($_GET['login']);
-        $pswrd = htmlentities($_GET['pswrd']);
+        $login = htmlentities($_POST['login']);
+        $pswrd = htmlentities($_POST['pswrd']);
         //$pswrd = password_hash($pswrd, PASSWORD_ARGON2I);
 
         $sql = "SELECT login, paswrd FROM Utilisateur WHERE login = '$login' ";
