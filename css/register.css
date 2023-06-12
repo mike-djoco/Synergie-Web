@@ -1,0 +1,45 @@
+*{
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+}
+
+/* ~~~ BODY ~~~ */
+.container {
+    width: 100%;
+    height: 92vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#top img{
+    width: 80px;
+    border-radius: 40px;
+    background-color: aquamarine;
+    position: fixed;
+    bottom: 30px;
+    right: 50px;
+}
+
+form {
+    width: 520px;
+}
+
+.subm {
+    width: 100%;
+    justify-content: space-around;
+    margin: 5px;
+}
+
+form div{
+    display: flex;
+    text-align: right;
+    justify-content: space-between;
+    margin: 3px;
+}
+
+input , label{
+    width: 250px;
+    font-size: 2em;
+}
