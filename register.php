@@ -3,17 +3,14 @@
 
     if (isset($_POST['prenom'])) {
 
-        $_SESSION['prenom'] = htmlentities($_POST['prenom']);
-        $_SESSION['nom'] = htmlentities($_POST['nom']);
-        $_SESSION['bday'] = htmlentities($_POST['bday']);
+        $prenom = htmlentities($_POST['prenom']);
+        $nom = htmlentities($_POST['nom']);
+        $bday = htmlentities($_POST['bday']);
     }
     
     if (isset($_POST['login'])) {
         $db = mysqli_connect("dwarves.iut-fbleau.fr","djoco", "djoco", "djoco");
 
-        $prenom = $_SESSION['prenom'];
-        $nom = $_SESSION['nom'];
-        $bday = $_SESSION['bday'];
         $login = htmlentities($_POST['login']);
         $mail = htmlentities($_POST['mail']);
         $pswrd = htmlentities($_POST['pswrd']);
@@ -22,36 +19,45 @@
 
         $sqlLogin = "SELECT login FROM Utilisateur WHERE login = '$login'";
         $resLogin = mysqli_query($db, $sqlLogin);
-        $sqlMail = "SELECT mail FROM Utilisateur WHERE login = '$mail'";
+        $sqlMail = "SELECT mail FROM Utilisateur WHERE mail = '$mail'";
         $resMail = mysqli_query($db, $sqlMail);
         if (mysqli_num_rows($resLogin) > 0) {
             echo "alert('Identifiant deja utilisé')";
         }else if (mysqli_num_rows($resMail) > 0) {
             echo "alert('Mail deja utilisé')";
-        }else if (strlen($pswrd)<8) {
+        }else if (strlen($pswrd)<8) { // si le mot de passe est trop court
             echo "alert('MDP trop court')";
-        }else if (strlen($pswrd)>=8) {
+        }else if (strlen($pswrd)>=8) { // verification de la longueur du mot de passe
             $nbMaj=0;
             $nbChif=0;
             $nbCharS=0;
-            for ($i=0; $i < strlen($pswrd); $i++) { 
+            for ($i=0; $i < strlen($pswrd); $i++) { // boucle pour verifier qu'on est tout les caractéristique du mdp
                 $char = substr($pswrd, $i, 1);
+                // on verifie qu'on est des chiffre, des caractere speciaux et des majuscules
                 if ($char=='0' || $char=='1' || $char=='2' || $char=='3' || $char=='4' || $char=='5' || $char=='6' || $char=='7' || $char=='8' || $char=='9') {
                     $nbChif++;
                 }else if ($char=='.' || $char=='!' || $char=='?' || $char=='€' || $char=='*') {
                     $nbCharS++;
-                }else if ($char=='.' || $char=='!' || $char=='?' || $char=='€' || $char=='*') {
-                    $nbCharS++;
+                }else if ($char>= 'A' && $char<='Z') {
+                    $nbMaj++;
                 }
             }
+            // si le mot de passe est correct alors on crée l'utilisateur
+            if ($nbMaj>=1 && $nbChif>=1 && $nbCharS>=1) {
+                $sql = "INSERT INTO Utilisateur(login, mail, paswrd, prenom, nom, bday) VALUES('$login', '$mail', '$pswrd', '$prenom', '$nom', '$bday')";
+                mysqli_query($db, $sql);
+                mysqli_close($db);
+                //header("Location: ./index.php");
+                
+                echo "fini";
+            }
         }else{
-            $sql = "INSERT INTO Utilisateur(login, mail, paswrd, prenom, nom, bday) VALUES('$login', '$mail', '$pswrd', '$prenom', '$nom', '$bday')";
-            mysqli_query($db, $sql);
+            header("Location: ./register.php");
+            echo "<alert>('Incription impossible')</alert>";
             mysqli_close($db);
-            header("location: ./index.php");
         }
-        echo "alert('Incription impossible')";
-        mysqli_close($db);
+        
+       
     }
 
 ?>

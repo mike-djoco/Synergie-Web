@@ -52,7 +52,7 @@
         </header>
 
         <div class="container">
-            <form method="GET">
+            <form method="POST">
                 <div>
                     <label for="login">Identifiant : </label>
                     <input type="text" name="login">

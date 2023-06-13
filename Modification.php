@@ -9,7 +9,7 @@
     // dans le schema de la base il faut change le role en type varchar car html ne renvoi que des string pas des int
     // (pour facilite les scripts php et ne pas avoir a convertir les strings en int)
     session_start();
-    $db = mysqli_connect("https://dwarves.iut-fbleau.fr", "djoco", "djoco", "djoco");
+    $db = mysqli_connect("dwarves.iut-fbleau.fr", "djoco", "djoco", "djoco");
 
     if(isset($_SESSION['user-auth'])){ // user-auth est crée au moment de la connection de l'utilisateur.
 
@@ -67,7 +67,7 @@
         }
        
     }else{
-        header("Location: user_login.php");
+        header("Location: login.php");
     }
 
 
