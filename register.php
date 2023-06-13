@@ -29,13 +29,13 @@
         }else if (mysqli_num_rows($resMail) > 0) {
             echo "alert('Mail deja utilisé')";
         }else if (strlen($pswrd)<8) {
-            echo "alert('MDP trop court');";
+            echo "alert('MDP trop court')";
         }else if (strlen($pswrd)>=8) {
             $nbMaj=0;
             $nbChif=0;
             $nbCharS=0;
             for ($i=0; $i < strlen($pswrd); $i++) { 
-                $char = substr($pswrd, i, 1);
+                $char = substr($pswrd, $i, 1);
                 if ($char=='0' || $char=='1' || $char=='2' || $char=='3' || $char=='4' || $char=='5' || $char=='6' || $char=='7' || $char=='8' || $char=='9') {
                     $nbChif++;
                 }else if ($char=='.' || $char=='!' || $char=='?' || $char=='€' || $char=='*') {
