@@ -17,8 +17,15 @@
                 echo "<script>alert('connection impossible')</script>";
             }else{
                 if ($Slogin == $login && $Spswrd == $pswrd) {
-                    echo "<script>alert('connection reussi')</script>";
+                    //echo "<script>alert('connection reussi')</script>";
+                    $sql = "SELECT role FROM Utilisateur WHERE login = '$login'";
+                    $res = mysqli_query($db, $sql);
+                    $Srole = mysqli_fetch_assoc($res);
                     session_start();
+                    $_SESSION['user_auth'] = true;
+                    $_SESSION['login'] = $Slogin;
+                    $_SESSION['role'] = $Srole;
+                    header("Location = Modification.php");
                 }
             }
         }
