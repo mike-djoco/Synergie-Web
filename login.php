@@ -19,6 +19,9 @@
                 if ($Slogin == $login && $Spswrd == $pswrd) {
                     echo "<script>alert('connection reussi')</script>";
                     session_start();
+                    $_SESSION['user_auth'] = true;
+                    $_SESSION['login']=$Slogin;
+                    header("Location: Modification.php");
                 }
             }
         }

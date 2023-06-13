@@ -1,3 +1,8 @@
+<?php 
+    session_start();
+?>
+
+
 <!DOCTYPE html>
     <html lang="en">
     <head>
@@ -17,13 +22,38 @@
                 <div class="link">
                     <a href="./index.php">HOME</a>
                     <a href="#">CONTACT</a>
-                     <a href="./register.php">Inscription</a>
+                    <a href="./register.php">Inscription</a>
+                    <a href="./modification.php">Account</a>
                 </div>
+                <div class="nav-action">
+                <?php
+                if (isset($_SESSION['user_auth'])) {
+                    echo '
+                        <form action="deconnecter.php">
+                            <input type="submit" value="Déconnexion">
+                        </form>
+                    ';
+                }
+
+                if(!isset($_SESSION['user_auth'])){
+                    echo '
+                        <form action="login.php">
+                            <input type="submit" value="Connection">
+                        </form>
+                    ';
+                }
+                ?>
+        </div>
             </nav>
         </header>
 
         <div class="container">
             <h1>Main Page</h1>
+            <?php 
+                if (isset($_SESSION['user_auth'])) {
+                    echo "bonjour vous etes connecte";
+                }
+            ?>
         </div>
     </body>
 </html>
