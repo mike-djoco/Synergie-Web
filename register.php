@@ -1,6 +1,8 @@
 <?php
     session_start();
-    include "utils/*";
+    include "utils/connecter.php";
+    include "utils/MotDePasse.php";
+    include "utils/requete.php";
     $step1 = false;
 
     if (isset($_POST['prenom'])) {

@@ -2,7 +2,7 @@
 // lors de la connection mettre le login dans un tableau post qu'on vas stocker dans une sessios pour 
 // pouvoir l'utiliser sur tous le site
 
-include "requete.php";
+include "./utils/requete.php";
 // il faut ajouter html_entities pour les donner afficher, mysqli_real_escape_string, 
 // et strip_tag pour les donné entrante
 // ajouter une session pour connaitre le role de l'utilisateur
