@@ -26,7 +26,7 @@
                     $_SESSION['user_auth'] = true;
                     $_SESSION['login'] = $Slogin;
                     $_SESSION['role'] = $Srole;
-                    header("Location = Modification.php");
+                    header("Location: account.php");
                 }
             }
         }

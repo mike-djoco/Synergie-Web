@@ -15,7 +15,7 @@
 
 }
 
-.modification-card nav a{
+.modification-card nav button{
 	height: 100%;
 	width: 150px;
 	background-color: var(--bck1);
@@ -24,7 +24,7 @@
 	align-items: center;
     transition: .5s;
 }
-.modification-card nav a:hover{
+.modification-card nav button:hover{
 	background-color: var(--hover);
 	font-size: 1.2em;
 	font-weight: bold;
@@ -46,9 +46,10 @@
 .modification-form.current {
 	width: 90%;
 	height: 60%;
-	background-color: antiquewhite;
+	background-color: var(--bck1);
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	justify-content: space-around;
 }
 

@@ -9,7 +9,7 @@
                     <form action="./utils/deconnecter.php">
                         <input class="nav-links" type="submit" value="Déconnexion">
                     </form>
-                    <a href="./Modification.php"><img src="./img/account.png" /></a>
+                    <a href="./account.php"><img src="./img/account.png" /></a>
                 ';
                 }
 

@@ -1,0 +1,47 @@
+.account-card {
+	width: 70vw;
+	height: 65vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	align-items: center;
+	background-color: var(--bck1);
+}
+
+.information-container{
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	align-items: center;
+}
+
+.information-container .account-name {
+	font-size: 2.7rem;
+	font-weight: bold;
+}
+
+.information-container .account-mail {
+	font-size: 2.1rem;
+}
+
+.information-container .account-bday {
+	font-size: 2.1rem;
+}
+
+.account-card button {
+	background: black;
+    color: white;
+    width: 25vw;
+    padding: 1rem;
+    border-radius: 100px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: 1.5s;
+}
+.account-card button:hover {
+	transform: scale(1.15);
+	font-size: 1.1rem;
+	background-color: white;
+	color: black;
+	font-weight: bold;
+}

@@ -1,31 +1,45 @@
+
 document.addEventListener("DOMContentLoaded", setup);
 
 function setup() {
-	document.getElementById("bcontact").addEventListener("click", opencontact);
-	document.getElementById("closes").addEventListener("click", closecontact);
+	document.getElementById("goToInfoCall").addEventListener("click", toggleInfo;
+	document.getElementById("goToMDPCall").addEventListener("click", toggleMDP;
+	document.getElementById("goToMailCall").addEventListener("click", toggleMail;
+	document.getElementById("goToRoleCall").addEventListener("click", toggleRole;
 }
 
-function toggleForm(String direction){
-	let element = document.getElementById("goToInfo");
-	element.classList.remove("current");
-	element = document.getElementById("goToMDP");
-	element.classList.remove("current");
-	element = document.getElementById("goToMail");
-	element.classList.remove("current");
-	element = document.getElementById("goToRole");
-	element.classList.remove("current");
+function toggleInfo(event){
+	document.getElementById("goToInfo").classList.remove("current");
+	document.getElementById("goToMDP").classList.remove("current");
+	document.getElementById("goToMail").classList.remove("current");
+	document.getElementById("goToRole").classList.remove("current");
 
-	if (direction == "goToInfo") {
-		element = document.getElementById("goToInfo");
-		element.classList.add("current");
-	}else if (direction == "goToMDP") {
-		element = document.getElementById("goToMDP");
-		element.classList.add("current");
-	}else if (direction == "goToMail") {
-		element = document.getElementById("goToMail");
-		element.classList.add("current");
-	}else if (direction == "goToRole") {
-		element = document.getElementById("goToRole");
-		element.classList.add("current");
-	}
+	document.getElementById("goToInfo").classList.add("current");
+}
+
+function toggleMDP(event){
+	document.getElementById("goToInfo").classList.remove("current");
+	document.getElementById("goToMDP").classList.remove("current");
+	document.getElementById("goToMail").classList.remove("current");
+	document.getElementById("goToRole").classList.remove("current");
+
+	document.getElementById("goToInfo").classList.add("current");
+}
+
+function toggleMail(event){
+	document.getElementById("goToInfo").classList.remove("current");
+	document.getElementById("goToMDP").classList.remove("current");
+	document.getElementById("goToMail").classList.remove("current");
+	document.getElementById("goToRole").classList.remove("current");
+
+	document.getElementById("goToInfo").classList.add("current");
+}
+
+function toggleRole(event){
+	document.getElementById("goToInfo").classList.remove("current");
+	document.getElementById("goToMDP").classList.remove("current");
+	document.getElementById("goToMail").classList.remove("current");
+	document.getElementById("goToRole").classList.remove("current");
+
+	document.getElementById("goToInfo").classList.add("current");
 }

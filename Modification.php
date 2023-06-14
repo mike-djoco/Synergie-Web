@@ -53,21 +53,37 @@ if (isset($_SESSION['user_auth'])) { // user_auth est crée au moment de la conn
     <link rel="icon" type="image/png" sizes="16x16" href="./img/logo.png">
     <link rel="stylesheet" href="./css/globale.css">
     <link rel="stylesheet" href="./css/modification.css">
-    <title>Document</title>
+
+    <title>Modification</title>
 </head>
 
 <body style="--bck1:#C1C1C180;--hover:#C1C1C1BB;">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="./js/modification.js"></script>
+
     <?php include "header.php"; ?>
     <div class="modification-card">
         <nav>
-            <a href="#" onclick="toggleForm('goToInfo')">Information</a>
-            <a href="#" onclick="toggleForm('goToMDP')">Mot de Passe</a>
-            <a href="#" onclick="toggleForm('goToMail')">Mail</a>
-            <a href="#" onclick="toggleForm('goToRole')">Role</a>
+            <button id='goToInfoCall'>Information</button>
+            <button id='goToMDPCall'>Mot de Passe</button>
+            <button id='goToMailCall'>Mail</button>
+            <button id='goToRoleCall'>Role</button>
         </nav>
 
         <div class="form-container">
-            <form action="Modification.php" method="POST" id="goToMDP" class="modification-form current">
+            <form action="Modification.php" method="POST" id="goToInfp" class="modification-form current">
+                <h2>Information du Compte</h2>
+
+                <input type="password" id="ancienMDP" name="ancienMDP" placeholder="Entrer ancien mot de passe" required autofocus>
+
+                <input type="password" id="password" name="password" placeholder="Nouveau mot de passe" required>
+
+                <input type="password" id="password2" name="password2" placeholder="Confirmer le mot de passe" required>
+
+                <input type="submit" value="Changer de mpd">
+            </form>
+
+            <form action="Modification.php" method="POST" id="goToMDP" class="modification-form">
                 <h2>Changer de mot de passe</h2>
 
                 <input type="password" id="ancienMDP" name="ancienMDP" placeholder="Entrer ancien mot de passe" required autofocus>
