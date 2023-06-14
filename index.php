@@ -14,11 +14,16 @@ session_start();
         <title>Acceuil</title>
     </head>
     
-    <body>
+    <body style="--bck1:#C1C1C180;--hover:#C1C1C1BB;">
         <?php include "header.php" ?>
 
-        <div class="container">
-            <h1>Main Page</h1>
+        <div class="recherche-card">
+            <div class="recherche-side">
+                recherche
+            </div>
+            <article class="article-side">
+                article
+            </article>
         </div>
     </body>
 </html>

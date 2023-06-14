@@ -1,21 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Tilt+Warp&display=swap');
 
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/*{
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+}
 
 body {
     font-family: 'Poppins', sans-serif;
     min-height: 100vh;
-    background: linear-gradient(to right, #333399, #ff00cc);
+    background: linear-gradient(to right, #e91717, #126df7);
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
-}
-
-*{
-    margin: 0;
-    padding: 0;
-    text-decoration: none;
 }
 
 /* ~~~ NAVBAR ~~~ */

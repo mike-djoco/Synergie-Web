@@ -64,26 +64,26 @@ if (isset($_SESSION['user_auth'])) { // user_auth est crée au moment de la conn
     <?php include "header.php"; ?>
     <div class="modification-card">
         <nav>
-            <button id='goToInfoCall'>Information</button>
-            <button id='goToMDPCall'>Mot de Passe</button>
-            <button id='goToMailCall'>Mail</button>
-            <button id='goToRoleCall'>Role</button>
+            <a href="#" onclick="toggleInfo(0)" class="alink current">Information</a>
+            <a href="#" onclick="toggleInfo(1)" class="alink">Mot de Passe</a>
+            <a href="#" onclick="toggleInfo(2)" class="alink">Mail</a>
+            <a href="#" onclick="toggleInfo(3)" class="alink">Role</a>
         </nav>
 
         <div class="form-container">
-            <form action="Modification.php" method="POST" id="goToInfp" class="modification-form current">
+            <form action="Modification.php" method="POST" class="modification-form current">
                 <h2>Information du Compte</h2>
 
-                <input type="password" id="ancienMDP" name="ancienMDP" placeholder="Entrer ancien mot de passe" required autofocus>
+                <input type="text" id="nom" name="nom" placeholder="Entrer votre Nom" required autofocus>
 
-                <input type="password" id="password" name="password" placeholder="Nouveau mot de passe" required>
+                <input type="text" id="prenom" name="prenom" placeholder="Entrer votre Prenom" required>
 
-                <input type="password" id="password2" name="password2" placeholder="Confirmer le mot de passe" required>
+                <input type="date" id="bday" name="bday" placeholder="Entrer votre Date de Naissance" required>
 
-                <input type="submit" value="Changer de mpd">
+                <button type="submit">Modifier mes Informations</button>
             </form>
 
-            <form action="Modification.php" method="POST" id="goToMDP" class="modification-form">
+            <form action="Modification.php" method="POST" class="modification-form">
                 <h2>Changer de mot de passe</h2>
 
                 <input type="password" id="ancienMDP" name="ancienMDP" placeholder="Entrer ancien mot de passe" required autofocus>
@@ -92,20 +92,19 @@ if (isset($_SESSION['user_auth'])) { // user_auth est crée au moment de la conn
 
                 <input type="password" id="password2" name="password2" placeholder="Confirmer le mot de passe" required>
 
-                <input type="submit" value="Changer de mpd">
+                <button type="submit">Effectué le changement</button>
             </form>
 
-            <form action="Modification.php" method="POST" id="goToMail" class="modification-form">
+            <form action="Modification.php" method="POST" class="modification-form">
                 <h2>Changer de mail</h2>
 
-                <label for="ancienMail">Entrer ancien mail</label>
                 <input type="email" name="ancienMail" name="ancienMail" placeholder="Confirmer le mot de passe" required autofocus>
 
                 <input type="email" id="mail" name="mail" placeholder="Nouveau mail" required>
 
                 <input type="email" id="mail2" name="mail2" placeholder="Confirmer le mail" required>
 
-                <input type="submit" value="Changer de mail">
+                <button type="submit">Effectué le changement</button>
             </form>
 
 
@@ -115,41 +114,51 @@ if (isset($_SESSION['user_auth'])) { // user_auth est crée au moment de la conn
                 $role = $_SESSION['role'];
                 if ($role === "gestionnaire") {
                     echo '
-                        <form action="Modification.php" id="goToRole" method="POST" class="modification-form">
+                        <form action="Modification.php" method="POST" class="modification-form">
                             <h2>Changer de rôle</h2>
-                            <input type="radio" name="role" id="adhérant" value="adhérant" >
-                            <label for="adhérant">Adhérant</label>
-                            
-                            <input type="radio" name="role" id="sympathisant" value="sympathisant">
-                            <label for="sympathisant">Sympathisant</label>
+                            <div class="radio-container">
+                                <input type="radio" name="role" id="adhérant" value="adhérant" >
+                                <label for="adhérant">Adhérant</label>
+                            </div>
 
-                            <input type="submit" value="Changer de rôle">
+                            <div class="radio-container">
+                                <input type="radio" name="role" id="sympathisant" value="sympathisant">
+                                <label for="sympathisant">Sympathisant</label>
+                            </div>
+
+                            <button type="submit">Effectué le changement</button>
                         </form>
                         ';
                 } else if ($role === "adhérant") {
                     echo '
-                        <form action="Modification.php" id="goToRole" method="POST" class="modification-form">
+                        <form action="Modification.php" method="POST" class="modification-form">
                             <h2>Changer de rôle</h2>
-                            <input type="radio" name="role" id="gestionnaire" value="gestionnaire">
-                            <label for="gestionnaire">gestionnaire</label>
+                            <div class="radio-container">
+                                <input type="radio" name="role" id="gestionnaire" value="gestionnaire">
+                                <label for="gestionnaire">gestionnaire</label>
+                            </div>
 
-                            <input type="radio" name="role" id="sympathisant" value="sympathisant">
-                            <label for="sympathisant">Sympathisant</label>
+                            <div class="radio-container">
+                                <input type="radio" name="role" id="sympathisant" value="sympathisant">
+                                <label for="sympathisant">Sympathisant</label>
+                            </div>
 
-                            <input type="submit" value="Changer de rôle">
+                            <button type="submit">Effectué le changement</button>
                         </form>
                         ';
                 } else if ($role === "sympathisant") {
                     echo '
-                        <form action="Modification.php" id="goToRole" method="POST" class="modification-form">
+                        <form action="Modification.php" method="POST" class="modification-form">
                             <h2>Changer de rôle</h2>
-                            <input type="radio" name="role" id="gestionnaire" value="gestionnaire">
-                            <label for="gestionnaire">gestionnaire</label>
-                        
-                            <input type="radio" name="role" id="adhérant" value="adhérant" >
-                            <label for="adhérant">Adhérant</label>
-
-                            <input type="submit" value="Changer de rôle">
+                            <div class="radio-container">
+                                <input type="radio" name="role" id="gestionnaire" value="gestionnaire">
+                                <label for="gestionnaire">gestionnaire</label>
+                            </div>
+                            <div class="radio-container">
+                                    <input type="radio" name="role" id="adhérant" value="adhérant" >
+                                    <label for="adhérant">Adhérant</label>
+                            </div>
+                            <button type="submit">Effectué le changement</button>
                         </form>
                         ';
                 } else {
@@ -157,23 +166,28 @@ if (isset($_SESSION['user_auth'])) { // user_auth est crée au moment de la conn
                     // un champ caché
             
                     echo '
-                    <form action="Modification.php" method="POST" id="goToRole" class="modification-form">
+                    <form action="Modification.php" method="POST" class="modification-form">
                         <h2>Changer de rôle</h2>
 
-                        <input type="radio" name="role" id="gestionnaire" value="gestionnaire">
-                        <label for="gestionnaire">gestionnaire</label>
+                        <div class="radio-container">
+                            <input type="radio" name="role" id="gestionnaire" value="gestionnaire">
+                            <label for="gestionnaire">gestionnaire</label>
+                        </div>
 
-                        <input type="radio" name="role" id="adhérant" value="adhérant">
-                        <label for="adhérant">Adhérant</label>
+                        <div class="radio-container">
+                            <input type="radio" name="role" id="adhérant" value="adhérant">
+                            <label for="adhérant">Adhérant</label>
+                        </div>
 
-                        <input type="radio" name="role" id="sympathisant" value="sympathisant">
-                        <label for="sympathisant">Sympathisant</label>
+                        <div class="radio-container">
+                            <input type="radio" name="role" id="sympathisant" value="sympathisant">
+                            <label for="sympathisant">Sympathisant</label>
+                        </div>
 
-                        <input type="submit" value="Changer de rôle">
+                        <button type="submit">Effectué le changement</button>
                     </form>
                     ';
                 }
-
             }
             ?>
         </div>

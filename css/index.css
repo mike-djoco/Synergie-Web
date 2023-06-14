@@ -5,11 +5,29 @@
 }
 
 /* ~~~ BODY ~~~ */
-.container {
+.recherche-card {
     width: 100%;
     height: 92vh;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-around;
+    flex-direction: row;
 }
 
+.recherche-side {
+    width: 35vw;
+    height: 80%;
+    background-color: var(--bck1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.article-side {
+    width: 45vw;
+    height: 80%;
+    background-color: var(--hover);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

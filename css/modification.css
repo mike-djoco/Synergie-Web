@@ -15,7 +15,7 @@
 
 }
 
-.modification-card nav button{
+.modification-card nav a{
 	height: 100%;
 	width: 150px;
 	background-color: var(--bck1);
@@ -24,10 +24,27 @@
 	align-items: center;
     transition: .5s;
 }
-.modification-card nav button:hover{
+.modification-card nav a:hover{
 	background-color: var(--hover);
 	font-size: 1.2em;
 	font-weight: bold;
+}
+
+.modification-form button {
+    background: black;
+    color: white;
+    padding: 1rem;
+    border-radius: 100px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: .5s;
+}
+
+.modification-form button:hover {
+    transform: scale(1.1);
+    background: white;
+    color: black;
+    cursor: pointer;
 }
 
 .form-container {
@@ -44,12 +61,32 @@
 }
 
 .modification-form.current {
-	width: 90%;
-	height: 60%;
-	background-color: var(--bck1);
+	width: 100%;
+	height: 100%;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: space-around;
 }
 
+.modification-form input[type="text"],
+.modification-form input[type="date"],
+.modification-form input[type="password"],
+.modification-form input[type="email"],
+.radio-container {
+    border: none;
+    outline: none;
+    background: rgba(255, 255, 255, .3);
+    padding: 1rem 1.5rem;
+    padding-left: calc(1rem *3.5);
+    border-radius: 100px;
+    width: 270px;
+    transition: background-color .5s;
+	display: flex;
+	flex-direction: row;
+	justify-content: left;
+}
+
+.modification-form input[type="radio"] {
+	margin: 0 20px;
+}

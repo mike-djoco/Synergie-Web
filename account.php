@@ -1,3 +1,10 @@
+<?php
+    session_start();
+    if (!isset($_SESSION['user_auth'])){
+        header("Location: ./login.php");
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -31,7 +38,7 @@
                 20/07/1901
             </div>
         </div>
-        <button href="./Modification.php">Modifier les informations</button>
+        <button onclick="location.href='./Modification.php'">Modifier les informations</button>
     </div>
 
     <?php include "footer.php"; ?>
