@@ -20,7 +20,8 @@
                     //echo "<script>alert('connection reussi')</script>";
                     $sql = "SELECT role FROM Utilisateur WHERE login = '$login'";
                     $res = mysqli_query($db, $sql);
-                    $Srole = mysqli_fetch_assoc($res);
+                    $row = mysqli_fetch_assoc($res);
+                    $Srole = $row['role'];
                     session_start();
                     $_SESSION['user_auth'] = true;
                     $_SESSION['login'] = $Slogin;
@@ -46,7 +47,7 @@
     </head>
 
     <body>
-        <header id="header">
+        <!-- <header id="header">
             <nav>
                 <a href="./index.php"><img src="./img/logo.png"/></a>
                 <div class="navivation">
@@ -55,7 +56,8 @@
                     <a href="./modification.php"><img src="./img/account.png"/></a>
                 </div>
             </nav>
-        </header>
+        </header> -->
+        <?php include "header.php" ?>
 
             
         <div class="login-card-container">
