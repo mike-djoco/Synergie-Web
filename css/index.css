@@ -5,12 +5,32 @@
 }
 
 /* ~~~ BODY ~~~ */
+
+#form-container {
+    width: 90%;
+    height: 100px;
+    border: solid white 2px;
+    position: sticky;
+    top: 0;
+}
+
+.evenement-card {
+    width: 90%;
+    min-height: 200px;
+    border: solid white 2px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+/* ~~~ BODY ~~~ */
+
 .recherche-card {
     width: 100%;
     height: 92vh;
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: center;
     flex-direction: row;
 }
 
@@ -19,8 +39,9 @@
     height: 80%;
     background-color: var(--bck1);
     display: flex;
-    justify-content: center;
     align-items: center;
+    flex-direction: column;
+    overflow: scroll;
 }
 
 .article-side {
@@ -30,4 +51,33 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
+}
+
+#current-tittle {
+    font-size: 3rem;
+    font-weight: bold;
+    width: 100%;
+    text-align: center;
+}
+
+#current-creator {
+    font-size: 2rem;
+    font-weight: bold;
+    width: 100%;
+    text-align: center;
+}
+
+#current-creation-date {
+    font-size: 1.2rem;
+    width: 100%;
+    font-style: italic;
+    text-align: center;
+}
+
+#current-information{
+    font-size: 1.2rem;
+    width: 80%;
+    height: 30%;
+    text-align: center;
 }
