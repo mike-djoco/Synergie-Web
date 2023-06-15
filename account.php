@@ -1,7 +1,14 @@
 <?php
+
+    include "./utils/requete.php";
+    include "./utils/connecter.php";
+
     session_start();
     if (!isset($_SESSION['user_auth'])){
         header("Location: ./login.php");
+    }else{
+        $db = _dbConnect();
+        $info = _recuppererInfo($db);
     }
 ?>
 
@@ -27,15 +34,15 @@
         <div class="information-container">
             <div class="account-name">
                 <!--remplacer par le prenom et le nom en majiscule-->
-                Frederick CHOUX
+                <?php echo "".$info['prenom']." " .strtoupper($info['nom'])  ?>
             </div>
             <div class="account-mail">
                 <!--remplacer par le mail-->
-                fred.le.choux@mangue.martinique
+                <?php echo $info['mail'] ?>
             </div>
             <div class="account-bday">
                 <!--remplacer par la date de naissance-->
-                20/07/1901
+                <?php echo $info['bday'] ?>
             </div>
         </div>
         <button onclick="location.href='./Modification.php'">Modifier les informations</button>

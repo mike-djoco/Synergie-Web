@@ -3,6 +3,7 @@
 // pouvoir l'utiliser sur tous le site
 
 include "./utils/requete.php";
+include "connecter.php";
 // il faut ajouter html_entities pour les donner afficher, mysqli_real_escape_string, 
 // et strip_tag pour les donné entrante
 // ajouter une session pour connaitre le role de l'utilisateur
@@ -11,13 +12,13 @@ include "./utils/requete.php";
 // dans le schema de la base il faut change le role en type varchar car html ne renvoi que des string pas des int
 // (pour facilite les scripts php et ne pas avoir a convertir les strings en int)
 session_start();
-$db = mysqli_connect("dwarves.iut-fbleau.fr", "djoco", "djoco", "djoco");
+$db = _dbConnect();
 
 if (isset($_SESSION['user_auth'])) { // user_auth est crée au moment de la connection de l'utilisateur.
 
     if (isset($_POST['password']) && isset($_POST['password2']) && isset($_POST['ancienMDP'])) {
         if ($_POST['password'] === $_POST['password2']) {
-            _changerMPD($db, $_POST['ancienMDP'], $_POST['password'], "modification.php");
+            $erreur = _changerMPD($db, $_POST['ancienMDP'], $_POST['password'], "account.php");
         } else {
             echo "les mots de passe ne correspondent pas";
         }
@@ -26,14 +27,18 @@ if (isset($_SESSION['user_auth'])) { // user_auth est crée au moment de la conn
     if (isset($_POST['mail']) && isset($_POST['ancienMail']) && isset($_POST['mail2'])) {
 
         if ($_POST['mail'] === $_POST['mail2']) {
-            _changerMail($db, $_POST['ancienMail'], $_POST['mail'], "modification.php");
+            $erreur = _changerMail($db, $_POST['ancienMail'], $_POST['mail'], "account.php");
         } else {
             echo "Les mails ne correspondent pas";
         }
     }
 
     if (isset($_POST['role'])) {
-        _changerRole($db, $_POST['role'], "modification.php");
+       $erreur =  _changerRole($db, $_POST['role'], "account.php");
+    }
+
+    if (isset($_POST['nom']) && isset($_POST['prenom']) && isset($_POST['bday'])){
+        $erreur = _changerInfo($db, $_POST['prenom'], $_POST['nom'], $_POST['bday']);
     }
 
 } else {
@@ -74,11 +79,11 @@ if (isset($_SESSION['user_auth'])) { // user_auth est crée au moment de la conn
             <form action="Modification.php" method="POST" class="modification-form current">
                 <h2>Information du Compte</h2>
 
-                <input type="text" id="nom" name="nom" placeholder="Entrer votre Nom" required autofocus>
+                <input type="text" id="nom" name="nom" placeholder="Nouveau Nom" autofocus>
 
-                <input type="text" id="prenom" name="prenom" placeholder="Entrer votre Prenom" required>
+                <input type="text" id="prenom" name="prenom" placeholder="Nouveau Prenom" >
 
-                <input type="date" id="bday" name="bday" placeholder="Entrer votre Date de Naissance" required>
+                <input type="date" id="bday" name="bday" placeholder="Nouvelle Date de Naissance" >
 
                 <button type="submit">Modifier mes Informations</button>
             </form>
@@ -86,7 +91,8 @@ if (isset($_SESSION['user_auth'])) { // user_auth est crée au moment de la conn
             <form action="Modification.php" method="POST" class="modification-form">
                 <h2>Changer de mot de passe</h2>
 
-                <input type="password" id="ancienMDP" name="ancienMDP" placeholder="Entrer ancien mot de passe" required autofocus>
+                <input type="password" id="ancienMDP" name="ancienMDP" placeholder="Entrer ancien mot de passe" required
+                    autofocus>
 
                 <input type="password" id="password" name="password" placeholder="Nouveau mot de passe" required>
 
@@ -98,7 +104,8 @@ if (isset($_SESSION['user_auth'])) { // user_auth est crée au moment de la conn
             <form action="Modification.php" method="POST" class="modification-form">
                 <h2>Changer de mail</h2>
 
-                <input type="email" name="ancienMail" name="ancienMail" placeholder="Confirmer le mot de passe" required autofocus>
+                <input type="email" name="ancienMail" name="ancienMail" placeholder="Ancien mail" required
+                    autofocus>
 
                 <input type="email" id="mail" name="mail" placeholder="Nouveau mail" required>
 
@@ -191,6 +198,16 @@ if (isset($_SESSION['user_auth'])) { // user_auth est crée au moment de la conn
             }
             ?>
         </div>
+        
+        <?php //affiche erreur en bas de la page pour si la requete n'est pas bonne
+        if (isset($erreur)) {
+            if (!$erreur) {
+                echo "Erreur";
+                $erreur = true;
+            }
+        }
+
+        ?>
     </div>
 
     <?php include "footer.php"; ?>
