@@ -32,7 +32,7 @@
         }else if (mysqli_num_rows($resMail) > 0) {
             echo "alert('Mail deja utilisé')";
         }elseif(_verificationMDP($db, $pswrd)){
-            _creerUtilisateur($db, $login, $mail, $pswrd, $prenom, $nom, $bday);
+            _creerUtilisateur($db, $login, $mail, $pswrd, $prenom, $nom, $bday, "sympathisant");
         }else{
             header("Location: ./register.php");
             echo "<alert>('Incription impossible')</alert>";

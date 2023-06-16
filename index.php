@@ -20,6 +20,8 @@
     
     <body style="--bck1:#C1C1C180;--hover:#C1C1C1BB;">
         <?php include "header.php" ?>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+        <script src="./js/newEvenement.js"></script>
 
         <div class="recherche-card">
             <div class="recherche-side">
@@ -59,11 +61,10 @@
                             $i=0;
                             while ($row = mysqli_fetch_assoc($resultat)) {
                                 echo '
-                                    <a class="evenement-card" onclick"">
+                                    <a href="#" class="evenement-card" onclick="toggleSelect('.$i.')">
                                         <p class="card-name">'.$row["nom"].'</p>
                                         <p class="card-creator">'.$row["createur"].'</p>
                                         <p class="card-date">'.$row["dateEvenement"].'</p>
-                                        <p class="card-participant">'.$row["nbParticipant"].'</p>
                                     </a>
                                 ';
                                 $i++;
@@ -74,18 +75,34 @@
                     ?>
                 </div>
             </div>
-            <article class="article-side">
+            <article id="article-side">
                 <?php
                     if (mysqli_num_rows($resultat)>0) {
-                        $row = mysqli_fetch_assoc($resultat);
+                        if (isset($_GET["sort"])){
+                            if ($_GET['sort'] == "date") {
+                                if (isset($_GET['sort']) && _verifDate($db, $_GET['sort'])) {
+                                    $resultat = _recupererEveByDate($db, $_GET['sort']);
+                                }
+                            }else if ($_GET['sort'] == "moinspart") {
+                                $resultat = _recupererEveOrderPartASC($db);
+                            }else if ($_GET['sort'] == "pluspart") {
+                                $resultat = _recupererEveOrderPartDESC($db);
+                            }else if ($_GET['sort'] == "new"){
+                                $resultat = _recupererEveOrderData($db);
+                            }
+                        }else{
+                            $resultat = _recupererEve($db);
+                        }
+
+                        
                         echo '
-                            <p id="current-tittle">'.$row["nom"].'</p>
-                            <p id="current-creator">'.$row["createur"].'</p>
-                            <p id="current-date-eve">'.$row["dateEvenement"].'</p>
-                            <p id="current-information">'.$row["information"].'</p>
+                            <p id="current-tittle">AA</p>
+                            <p id="current-creator">AA</p>
+                            <p id="current-date-eve">AA</p>
+                            <p id="current-information">AA</p>
                         ';
                     }else{
-                        echo "<alert>Pas de Ligne</alert>";
+                        echo "<alert>Pas d'Evenement</alert>";
                     }
                 ?>
             </article>

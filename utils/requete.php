@@ -1,4 +1,15 @@
 <?php
+
+//
+//
+//  Modification du compte ////////////////////////////////////////////////////////////
+//
+//
+//
+//
+//
+//
+
 function _changerMPD(mysqli $db, string $oldMpd, string $newMdp, string $redirect)
 {
     // recupere le mot de passe pour verifier que la personne qui change le mot de passe 
@@ -119,15 +130,16 @@ function _changerInfo(mysqli $db, string $prenom, string $nom, string $date)
     }
 }
 
-function _creerUtilisateur(mysqli $db, string $login, string $mail, string $pswrd, string $prenom, string $nom, string $bday)
+function _creerUtilisateur(mysqli $db, string $login, string $mail, string $pswrd, string $prenom, string $nom, string $bday, string $role)
 {
     $login = mysqli_real_escape_string($db, $login);
     $mail = mysqli_real_escape_string($db, $mail);
     $pswrd = mysqli_real_escape_string($db, $pswrd);
+    //$pswrd = password_hash($pswrd, PASSWORD_DEFAULT);
     $prenom = mysqli_real_escape_string($db, $prenom);
     $nom = mysqli_real_escape_string($db, $nom);
     $bday = mysqli_real_escape_string($db, $bday);
-    $sql = "INSERT INTO Utilisateur(login, mail, paswrd, prenom, nom, bday) VALUES('$login', '$mail', '$pswrd', '$prenom', '$nom', '$bday')";
+    $sql = "INSERT INTO Utilisateur(login, mail, paswrd, prenom, nom, bday, role) VALUES('$login', '$mail', '$pswrd', '$prenom', '$nom', '$bday', '$role')";
     mysqli_query($db, $sql);
     header("Location: ./index.php");
 }
@@ -136,38 +148,21 @@ function _recuppererInfo(mysqli $db)
 {
     $login = $_SESSION['login'];
     $sql = "SELECT * FROM Utilisateur WHERE login = '$login'";
-    $res = mysqli_query($db, $sql);
-    if ($row = mysqli_fetch_assoc($res)) {
-        return $row;
-    }
-
-}
-
-function _ajouterEvenement(mysqli $db, string $nomEv, string $date, string $information, string $accreditation)
-{
-    $nomEv = mysqli_real_escape_string($db, $nomEv);
-    $date = mysqli_real_escape_string($db, $date);
-    $information = mysqli_real_escape_string($db, $information);
-    $accreditation = mysqli_real_escape_string($db, $accreditation);
-    $info = _recuppererInfo($db);
-    $initParticipant = 1;
-    $createur = $info['login'];
-
-    $stmt = mysqli_prepare($db, "INSERT INTO Evenement (nom, createur, dateEvenement, information, nbParticipant, accreditation )VALUE (?, ?, ?, ?, ?, ?)");
-    mysqli_stmt_bind_param($stmt, "ssssi", $nomEv, $createur, $date, $information, $initParticipant, $accreditation );
-    if (mysqli_execute($stmt)) {
-        header("Location: index.php");
-    } else {
-        return false;
-    }
-
-}
-
-function _recupererEve(mysqli $db)
-{
-    $sql = "SELECT * FROM Evenement";
     return mysqli_query($db, $sql);
 }
+
+//
+//
+//  Relatif au evenement /////////////////////////////////////////////////
+//
+//
+//
+//
+//
+//
+
+
+// outils pour les evenements
 
 function _verifCreateur(mysqli $db, string $createur)
 {
@@ -184,18 +179,6 @@ function _verifCreateur(mysqli $db, string $createur)
     }
 }
 
-function _recupererEveByCreat($db, $createur)
-{
-    $createur = mysqli_real_escape_string($db, $createur);
-    if(_verifCreateur($db, $createur)){
-        $sql = "SELECT * FROM Evenement WHERE login = '$createur' ORDER BY date";
-        return mysqli_query($db, $sql);
-    }else{
-        return false;
-    }
-
-}
-
 function _verifDate(mysqli $db, string $date)
 {
     $date = mysqli_real_escape_string($db, $date);
@@ -210,35 +193,9 @@ function _verifDate(mysqli $db, string $date)
         return false;
     }
 }
-function _recupererEveByDate(mysqli $db, string $date)
-{
-    $date = mysqli_real_escape_string($db, $date);
-    if(_verifDate($db, $date)){
-        $sql = "SELECT * FROM Evenement WHERE login = '$date' ORDER BY date";
-        return mysqli_query($db, $sql);
-    }else{
-        return false;
-    }
-}
-
-function _recupererEveOrderData(mysqli $db){
-    $sql = "SELECT * FROM Evenement ORDER BY date";
-    return mysqli_query($db, $sql);
-}
-
-function _recupererEveOrderPartASC(mysqli $db){
-    $sql = "SELECT * FROM Evenement ORDER BY nbParticipant ASC";
-    return mysqli_query($db, $sql);
-}
-
-function _recupererEveOrderPartDESC(mysqli $db){
-    $sql = "SELECT * FROM Evenement ORDER BY nbParticipant DESC";
-    return mysqli_query($db, $sql);
-}
-
 function _verifAccreditation(mysqli $db, $id){
     // envoyer dans un champ cacher l'id pour pouvoir retrouver l'evenement
-    $sql = "SELECT * FROM Evenement WHERE id= $id";
+    $sql = "SELECT * FROM Evenement WHERE id= '$id'";
     $res = mysqli_query($db, $sql);
     $row = mysqli_fetch_assoc($res);
     $accreditation = $row['accreditation'];
@@ -262,6 +219,183 @@ function _verifAccreditation(mysqli $db, $id){
     }
 
 }
+
+function _peutCreeEvenement(mysqli $db){
+    if($_SESSION['role'] == "gestionnaire"){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+function _getOneEvenement(mysqli $db, string $nom, string $createur){
+    $sql = "SELECT * FROM Evenement  WHERE nom = '$nom' et createur = '$createur'";
+    return mysqli_query($db, $sql);
+}
+
+
+//  requete evenement
+function _ajouterEvenement(mysqli $db, string $nomEv, string $date, string $information, string $accreditation)
+{
+    $nomEv = mysqli_real_escape_string($db, $nomEv);
+    $date = mysqli_real_escape_string($db, $date);
+    $information = mysqli_real_escape_string($db, $information);
+    $accreditation = mysqli_real_escape_string($db, $accreditation);
+    $info = _recuppererInfo($db);
+    $info = mysqli_fetch_assoc($info);
+    $createur = $info['login'];
+
+    $stmt = mysqli_prepare($db, "INSERT INTO Evenement(nom, createur, dateEvenement, information, accreditation ) VALUE (?, ?, ?, ?, ?)");
+    mysqli_stmt_bind_param($stmt, "sssss", $nomEv, $createur, $date, $information, $accreditation);
+    if (mysqli_execute($stmt)) {
+        $sql = "SELECT * FROM Evenement WHERE nom = '$nomEv' AND createur = '$createur'";
+        $req = mysqli_query($db, $sql);
+        $res = mysqli_fetch_assoc($req);
+        $id = $res['id'];
+        $stmt = mysqli_prepare($db, "INSERT INTO Inscrit(loginUtilisateur, idEvenement) VALUES (?, ?)");
+        mysqli_stmt_bind_param($stmt, "ss", $createur, $id);
+        mysqli_execute($stmt);
+        header("Location: index.php");
+    } else {
+        return false;
+    }
+
+}
+
+
+function _recupererEve(mysqli $db)
+{
+    $sql = "SELECT * FROM Evenement";
+    return mysqli_query($db, $sql);
+}
+
+
+function _recupererEveByCreat(mysqli $db, string $createur)
+{
+    $createur = mysqli_real_escape_string($db, $createur);
+    if(_verifCreateur($db, $createur)){
+        $sql = "SELECT * FROM Evenement WHERE createur = '$createur' ORDER BY dateEvenement";
+        return mysqli_query($db, $sql);
+    }else{
+        return false;
+    }
+
+}
+
+
+function _recupererEveByDate(mysqli $db, string $date)
+{
+    $date = mysqli_real_escape_string($db, $date);
+    if(_verifDate($db, $date)){
+        $sql = "SELECT * FROM Evenement WHERE dateEvenement = '$date' ORDER BY dateEvenement";
+        return mysqli_query($db, $sql);
+    }else{
+        return false;
+    }
+}
+
+function _recupererEveOrderData(mysqli $db){
+    $sql = "SELECT * FROM Evenement ORDER BY dateEvenement DESC";
+    return mysqli_query($db, $sql);
+}
+
+function _recupererEveOrderPartASC(mysqli $db){
+    $sql = "SELECT *, COUNT(*) FROM Evenement INNER JOIN Inscrit ON Evenement.id = Inscrit.idEvenement GROUP BY Evenement.id ORDER BY COUNT(*) ASC";
+    return mysqli_query($db, $sql);
+}
+
+function _recupererEveOrderPartDESC(mysqli $db){
+    $sql = "SELECT *, COUNT(*) FROM Evenement INNER JOIN   ON Evenement.id = Inscrit.idEvenement GROUP BY Evenement.id ORDER BY COUNT(*) DESC";
+    return mysqli_query($db, $sql);
+}
+
+
+function _sinscritEve(mysqli $db, $id, string $login){
+    $sql = "INSERT INTO Inscrit(loginUtilisateur, idEvenement) VALUE ('$login', '$id')";
+    if(mysqli_query($db, $sql)){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+function _deInscrit(mysqli $db, $id, string $login){
+    $sql = "DELETE FROM Inscrit WHERE loginUtilisateur = $login AND idEvenement = '$id'";
+    if(mysqli_query($db, $sql)){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+function _nbParticipant(mysqli $db, $idEve){
+    $sql = "SELECT * FROM Inscrit WHERE idEvenement = '$idEve'";
+    $req = mysqli_query($db, $sql);
+    return mysqli_num_rows($$req);
+}
+
+function _supprimerEve(mysqli $db, $id){
+    $sql = "DELETE FROM Evenement WHERE id = '$id'";
+    return mysqli_query($db, $sql);
+}
+
+//
+//
+//  Relatif au commentaire
+//
+//
+//
+//
+//
+//
+//
+
+function _commente(mysqli $db, $id, string $login, string $comment){
+    $stmt = mysqli_prepare($db, "INSERT INTO Commentaire(loginUtilisateur, idEvenement, commentaire) VALUES (?,?,?)");
+    mysqli_stmt_bind_param($stmt, "sss", $id, $login, $comment);
+    if(mysqli_execute($stmt)){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+function _deleteCom(mysqli $db, $idComment){
+    $sql = "DELETE FROM Commentaire WHERE idCommentaire = '$idComment'";
+    if(mysqli_query($db, $sql)){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+
+// nombre de commentaire
+function _nbCommentaire(mysqli $db, $idEve){
+    $sql = "SELECT * FROM Commentaire WHERE idEvenement = '$idEve'";
+    $req  = mysqli_query($db, $sql);
+    return mysqli_num_rows($req);
+}
+
+function _fetchComment(mysqli $db, $idEve){
+    $sql = "SELECT * FROM Commentaire WHERE idEvenement = '$idEve'";
+    return mysqli_query($db, $sql);
+}
+
+function _estCreateur(mysqli $db, $idEve, string $login){
+    $login = mysqli_real_escape_string($db, $login);
+    $sql = "SELECT * FROM Evenement WHERE id = '$idEve'";
+    $req = mysqli_query($db, $sql);
+    $res = mysqli_fetch_assoc($req);
+    if ($login == $res['createur']){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+
+
 // cree une cle et la hasher avec hashmac et la mettre dans un session champ cacher
 
 // faire des requete preparer avec mysqli prepare et mysqli_stmt_bind_param($stmt, "s", $city)

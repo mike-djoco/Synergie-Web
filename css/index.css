@@ -105,7 +105,7 @@
     flex-direction: column;
 }
 
-.article-side {
+#article-side {
     width: 45vw;
     height: 80%;
     background-color: var(--hover);
