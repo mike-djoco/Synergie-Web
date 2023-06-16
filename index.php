@@ -21,7 +21,7 @@
     <body style="--bck1:#C1C1C180;--hover:#C1C1C1BB;">
         <?php include "header.php" ?>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-        <script src="./js/newEvenement.js"></script>
+        <script src="./js/Evenement.js"></script>
 
         <div class="recherche-card">
             <div class="recherche-side">
@@ -65,6 +65,7 @@
                                         <p class="card-name">'.$row["nom"].'</p>
                                         <p class="card-creator">'.$row["createur"].'</p>
                                         <p class="card-date">'.$row["dateEvenement"].'</p>
+                                        <p class="card-info">'.$row["information"].'</p>
                                     </a>
                                 ';
                                 $i++;
@@ -96,15 +97,33 @@
 
                         
                         echo '
-                            <p id="current-tittle">AA</p>
-                            <p id="current-creator">AA</p>
-                            <p id="current-date-eve">AA</p>
-                            <p id="current-information">AA</p>
+                            <div id="currentEvenement">
+                                <p id="current-tittle"></p>
+                                <p id="current-creator">Créer par : </p>
+                                <p id="current-date-eve">Il aura lieux le : </p>
+                                <p id="current-information"></p>
+                            </div>
                         ';
                     }else{
                         echo "<alert>Pas d'Evenement</alert>";
                     }
                 ?>
+                <div id="comment-container">
+                    <div class="comment-card">
+                        <p class="comment-name">Frederick CHOUX</p>
+                        <p class="comment-comentaire">J'espere que je pourrais venir a l'Evenement, il a l'air genial</p>
+                        <p class="comment-date">23/01/2023</p>
+                    </div>
+                    <div class="comment-card">
+                        <p class="comment-name">Taha Orteil</p>
+                        <p class="comment-comentaire">C'est quand que livreur il fait partir les orteil pour que je graille</p>
+                        <p class="comment-date">23/04/2023</p>
+                    </div>
+                    <form method="POST">
+                        <input type="text" name="new-commentaire" id="new-commentaire" placeholder='Entre votre commentaire' required autofocus>
+                        <input type="submit" value="Envoyer le Commentaire">
+                    </form>
+                </div>
             </article>
         </div>
     </body>

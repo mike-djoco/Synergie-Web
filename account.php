@@ -9,6 +9,7 @@
     }else{
         $db = _dbConnect();
         $info = _recuppererInfo($db);
+        $row = mysqli_fetch_assoc($info);
     }
 ?>
 
@@ -34,15 +35,15 @@
         <div class="information-container">
             <div class="account-name">
                 <!--remplacer par le prenom et le nom en majiscule-->
-                <?php echo "".$info['prenom']." " .strtoupper($info['nom'])  ?>
+                <?php echo "".$row['prenom']." " .$row['nom'] ?>
             </div>
             <div class="account-mail">
                 <!--remplacer par le mail-->
-                <?php echo $info['mail'] ?>
+                <?php echo $row['mail'] ?>
             </div>
             <div class="account-bday">
                 <!--remplacer par la date de naissance-->
-                <?php echo $info['bday'] ?>
+                <?php echo $row['bday'] ?>
             </div>
         </div>
         <button onclick="location.href='./Modification.php'">Modifier les informations</button>

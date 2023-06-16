@@ -68,21 +68,59 @@
 }
 
 .evenement-card {
-    width: 90%;
-    min-height: 200px;
+    width: 100%;
+    min-height: 150px;
     border: solid white 2px;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
+    flex-direction: column;
+    color: black;
+}
+
+.card-name {
+    font-size: 1.4rem;
+    font-weight: bold;
+}
+
+.card-creator {
+    font-size: 1.2rem;
+}
+
+.card-date {
+    font-size: 1.1rem;
 }
 
 #recherche-container {
+    z-index: 11;
     width: 100%;
     display: flex;
-    align-items: center;
-    justify-content: center;
     flex-direction: column;
     overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.card-info{
+    display: none;
+}
+
+::-webkit-scrollbar {
+    width: 19px;
+    display: flex;
+    align-items: center;
+}
+
+::-webkit-scrollbar-track {
+    background: white;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--bck1);
+    border-radius: 12px;
+}
+  
+::-webkit-scrollbar-thumb:hover {
+    background: var(--hover);
 }
 
 /* ~~~ BODY ~~~ */
@@ -105,14 +143,29 @@
     flex-direction: column;
 }
 
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
 #article-side {
     width: 45vw;
     height: 80%;
-    background-color: var(--hover);
+    background-color: var(--bck1);
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+#currentEvenement{
+    background-color: var(--hover);
+    width: 90%;
+    min-height: 350px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-direction: column;
+    border: solid white 2px;
 }
 
 #current-tittle {
@@ -139,10 +192,52 @@
 #current-information{
     font-size: 1.2rem;
     width: 80%;
-    height: 30%;
     text-align: center;
 }
 
-#new img{
-    width: 50px;
+#comment-container{
+    width: 90%;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+#comment-container .comment-card {
+    background-color: var(--hover);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-direction: column;
+    border: solid white 2px;
+    padding: 3px 0;
+    margin: 5px 0;
+}
+
+#comment-container form {
+    background-color: var(--hover);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-direction: column;
+    border: solid white 2px;
+    padding: 3px 0;
+    margin: 5px 0;
+}
+
+#comment-container .comment-name {
+    font-size: 1.29rem;
+    font-weight: bold;
+}
+
+#comment-container .comment-comentaire {
+    font-size: 1.1rem;
+}
+
+#comment-container .comment-date {
+    font-size: 1.1rem;
+    font-style: italic;
 }
