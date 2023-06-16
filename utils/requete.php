@@ -148,30 +148,8 @@ function _recuppererInfo(mysqli $db)
 {
     $login = $_SESSION['login'];
     $sql = "SELECT * FROM Utilisateur WHERE login = '$login'";
-<<<<<<< HEAD
     return mysqli_query($db, $sql);
 }
-=======
-    $res = mysqli_query($db, $sql);
-    if ($row = mysqli_fetch_assoc($res)) {
-        return $row;
-    }
-
-}
-
-//
-//
-//  Relatif au evenement /////////////////////////////////////////////////
-//
-//
-//
-//
-//
-//
-
-
-// outils pour les evenements
->>>>>>> 73beeaf99810010a74ea59e8b4632c933baeb547
 
 //
 //
@@ -250,14 +228,11 @@ function _peutCreeEvenement(mysqli $db){
     }
 }
 
-<<<<<<< HEAD
 function _getOneEvenement(mysqli $db, string $nom, string $createur){
     $sql = "SELECT * FROM Evenement  WHERE nom = '$nom' et createur = '$createur'";
     return mysqli_query($db, $sql);
 }
 
-=======
->>>>>>> 73beeaf99810010a74ea59e8b4632c933baeb547
 
 //  requete evenement
 function _ajouterEvenement(mysqli $db, string $nomEv, string $date, string $information, string $accreditation)
@@ -267,7 +242,6 @@ function _ajouterEvenement(mysqli $db, string $nomEv, string $date, string $info
     $information = mysqli_real_escape_string($db, $information);
     $accreditation = mysqli_real_escape_string($db, $accreditation);
     $info = _recuppererInfo($db);
-<<<<<<< HEAD
     $info = mysqli_fetch_assoc($info);
     $createur = $info['login'];
 
@@ -281,13 +255,6 @@ function _ajouterEvenement(mysqli $db, string $nomEv, string $date, string $info
         $stmt = mysqli_prepare($db, "INSERT INTO Inscrit(loginUtilisateur, idEvenement) VALUES (?, ?)");
         mysqli_stmt_bind_param($stmt, "ss", $createur, $id);
         mysqli_execute($stmt);
-=======
-    $createur = $info['login'];
-
-    $stmt = mysqli_prepare($db, "INSERT INTO Evenement (nom, createur, dateEvenement, information, accreditation )VALUE (?, ?, ?, ?, ?)");
-    mysqli_stmt_bind_param($stmt, "ssss", $nomEv, $createur, $date, $information, $accreditation );
-    if (mysqli_execute($stmt)) {
->>>>>>> 73beeaf99810010a74ea59e8b4632c933baeb547
         header("Location: index.php");
     } else {
         return false;
@@ -303,19 +270,11 @@ function _recupererEve(mysqli $db)
 }
 
 
-<<<<<<< HEAD
 function _recupererEveByCreat(mysqli $db, string $createur)
 {
     $createur = mysqli_real_escape_string($db, $createur);
     if(_verifCreateur($db, $createur)){
         $sql = "SELECT * FROM Evenement WHERE createur = '$createur' ORDER BY dateEvenement";
-=======
-function _recupererEveByCreat($db, string $createur)
-{
-    $createur = mysqli_real_escape_string($db, $createur);
-    if(_verifCreateur($db, $createur)){
-        $sql = "SELECT * FROM Evenement WHERE login = '$createur' ORDER BY date";
->>>>>>> 73beeaf99810010a74ea59e8b4632c933baeb547
         return mysqli_query($db, $sql);
     }else{
         return false;
@@ -328,11 +287,7 @@ function _recupererEveByDate(mysqli $db, string $date)
 {
     $date = mysqli_real_escape_string($db, $date);
     if(_verifDate($db, $date)){
-<<<<<<< HEAD
         $sql = "SELECT * FROM Evenement WHERE dateEvenement = '$date' ORDER BY dateEvenement";
-=======
-        $sql = "SELECT * FROM Evenement WHERE dateEvenement = '$date' ORDER BY date";
->>>>>>> 73beeaf99810010a74ea59e8b4632c933baeb547
         return mysqli_query($db, $sql);
     }else{
         return false;
@@ -350,11 +305,7 @@ function _recupererEveOrderPartASC(mysqli $db){
 }
 
 function _recupererEveOrderPartDESC(mysqli $db){
-<<<<<<< HEAD
     $sql = "SELECT *, COUNT(*) FROM Evenement INNER JOIN   ON Evenement.id = Inscrit.idEvenement GROUP BY Evenement.id ORDER BY COUNT(*) DESC";
-=======
-    $sql = "SELECT *, COUNT(*) FROM Evenement INNER JOIN Inscrit ON Evenement.id = Inscrit.idEvenement GROUP BY Evenement.id ORDER BY COUNT(*) DESC";
->>>>>>> 73beeaf99810010a74ea59e8b4632c933baeb547
     return mysqli_query($db, $sql);
 }
 

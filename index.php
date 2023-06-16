@@ -61,11 +61,7 @@
                             $i=0;
                             while ($row = mysqli_fetch_assoc($resultat)) {
                                 echo '
-<<<<<<< HEAD
                                     <a href="#" class="evenement-card" onclick="toggleSelect('.$i.')">
-=======
-                                    <a class="evenement-card" onclick"toggleSelect('.$i.')">
->>>>>>> 73beeaf99810010a74ea59e8b4632c933baeb547
                                         <p class="card-name">'.$row["nom"].'</p>
                                         <p class="card-creator">'.$row["createur"].'</p>
                                         <p class="card-date">'.$row["dateEvenement"].'</p>
@@ -98,7 +94,6 @@
                             $resultat = _recupererEve($db);
                         }
 
-<<<<<<< HEAD
                         
                         echo '
                             <p id="current-tittle">AA</p>
@@ -106,18 +101,6 @@
                             <p id="current-date-eve">AA</p>
                             <p id="current-information">AA</p>
                         ';
-=======
-                        while ($row = mysqli_fetch_assoc($resultat)) {
-                            if (condition) {
-                            }
-                            echo '
-                                <p id="current-tittle">'.$row["nom"].'</p>
-                                <p id="current-creator">'.$row["createur"].'</p>
-                                <p id="current-date-eve">'.$row["dateEvenement"].'</p>
-                                <p id="current-information">'.$row["information"].'</p>
-                            ';
-                        }
->>>>>>> 73beeaf99810010a74ea59e8b4632c933baeb547
                     }else{
                         echo "<alert>Pas d'Evenement</alert>";
                     }
