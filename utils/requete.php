@@ -286,7 +286,7 @@ function _recupererEveByDate(mysqli $db, string $date)
 }
 
 function _recupererEveOrderData(mysqli $db){
-    $sql = "SELECT * FROM Evenement ORDER BY date";
+    $sql = "SELECT * FROM Evenement ORDER BY dateEvenement DESC";
     return mysqli_query($db, $sql);
 }
 
