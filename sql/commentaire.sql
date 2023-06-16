@@ -1,6 +1,6 @@
 CREATE TABLE Commentaire(
-    idCommentaire int PRIMARY KEY AUTO_INCREMENT;
-    loginUtilisateur varchar(255) NOT NULL REFERENCES Utilisateur(login);
-    idEvenement int NOT NULL REFERENCES Evenement,
+    idCommentaire int PRIMARY KEY AUTO_INCREMENT,
+    loginUtilisateur varchar(255) NOT NULL REFERENCES Utilisateur(login),
+    idEvenement int NOT NULL REFERENCES Evenement(id),
     comment text NOT NULL
 );
