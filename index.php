@@ -24,61 +24,55 @@
         <div class="recherche-card">
             <div class="recherche-side">
                 <div id="form-container">
-                    <form id="recherche-form" method="POST">
-                        <div class="radio-container">
-                            <input type="radio" name="trier" value="creator">
-                            <input type="trxt" name="creator" placeholder="Nom du Createur">
-                        </div>
-
-                        <div class="radio-container">
-                            <input type="radio" name="trier" value="date">
-                            <input type="date" name="date">
-                        </div>
-
-                        <div class="radio-container">
-                            <input type="radio" name="trier" value="partmoins">
-                            <label for="gestionnaire">Paricipant Croissant</label>
-                        </div>
-
-                        <div class="radio-container">
-                            <input type="radio" name="trier" value="partplus">
-                            <label for="partplus">Paricipant Decroissant</label>
-                        </div>
+                    <form class="searchbar">
+                        <input type="search" name="site-search" placeholder="Rechercher un Evenement ..."/>
+                        <button  type="submit"><img src="./img/search.png" alt="Rechercher"></button >
                     </form>
+
+                    <div class="sortby">
+                        <p>Trier par : </p>
+                        <span class="sort-list">
+                            <a href="index.php?sort=pluspart">Le + de participant</a>
+                            <a href="index.php?sort=moinspart">Le - de participant</a>
+                            <a href="index.php?sort=new">Nouveauté</a>
+                        </span>
+                    </div>
                 </div>
-                <?php
-                    if (isset($_POST["trier"])){
-                        if ($_POST['trier'] == "date") {
-                            if (isset($_POST['date']) && _verifDate($db, $_POST['date'])) {
-                                $resultat = _recupererEveByDate($db, $_POST['date']);
+                <div id="recherche-container">
+                    <?php
+                        if (isset($_GET["sort"])){
+                            if ($_GET['sort'] == "date") {
+                                if (isset($_GET['sort']) && _verifDate($db, $_GET['sort'])) {
+                                    $resultat = _recupererEveByDate($db, $_GET['sort']);
+                                }
+                            }else if ($_GET['sort'] == "moinspart") {
+                                $resultat = _recupererEveOrderPartASC($db);
+                            }else if ($_GET['sort'] == "pluspart") {
+                                $resultat = _recupererEveOrderPartDESC($db);
+                            }else if ($_GET['sort'] == "new"){
+                                $resultat = _recupererEveOrderData($db);
                             }
-                        }else if ($_POST['trier'] == "partmoins") {
-                            $resultat = _recupererEveOrderPartASC($db);
-                        }else if ($_POST['trier'] == "partplus") {
-                            $resultat = _recupererEveOrderPartDESC($db);
                         }else{
                             $resultat = _recupererEve($db);
                         }
-                    }else{
-                        $resultat = _recupererEve($db);
-                    }
-                    if (mysqli_num_rows($resultat)>0) {
-                        $i=0;
-                        while ($row = mysqli_fetch_assoc($resultat)) {
-                            echo '
-                                <a class="evenement-card selected" onclick"">
-                                    <p class="card-name">'.$row["nom"].'</p>
-                                    <p class="card-creator">'.$row["createur"].'</p>
-                                    <p class="card-date">'.$row["dateEvenement"].'</p>
-                                    <p class="card-participant">'.$row["nbParticipant"].'</p>
-                                </a>
-                            ';
-                            $i++;
+                        if (mysqli_num_rows($resultat)>0) {
+                            $i=0;
+                            while ($row = mysqli_fetch_assoc($resultat)) {
+                                echo '
+                                    <a class="evenement-card" onclick"">
+                                        <p class="card-name">'.$row["nom"].'</p>
+                                        <p class="card-creator">'.$row["createur"].'</p>
+                                        <p class="card-date">'.$row["dateEvenement"].'</p>
+                                        <p class="card-participant">'.$row["nbParticipant"].'</p>
+                                    </a>
+                                ';
+                                $i++;
+                            }
+                        }else{
+                            echo "<alert>Pas de Ligne</alert>";
                         }
-                    }else{
-                        echo "<alert>Pas de Ligne</alert>";
-                    }
-                ?>
+                    ?>
+                </div>
             </div>
             <article class="article-side">
                 <?php

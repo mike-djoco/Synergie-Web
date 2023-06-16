@@ -46,6 +46,7 @@
             </div>
         </div>
         <button onclick="location.href='./Modification.php'">Modifier les informations</button>
+        <button onclick="location.href='./newEvenement.php'">Creer un Evenement</button>
     </div>
 
     <?php include "footer.php"; ?>
