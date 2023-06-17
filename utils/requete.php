@@ -148,11 +148,7 @@ function _creerUtilisateur(mysqli $db, string $login, string $mail, string $pswr
     $nom = htmlentities($nom);
     $bday = mysqli_real_escape_string($db, $bday);
     $sql = "INSERT INTO Utilisateur(login, mail, paswrd, prenom, nom, bday, role) VALUES('$login', '$mail', '$pswrd', '$prenom', '$nom', '$bday', '$role')";
-    if(mysqli_query($db, $sql)){
-        header("Location: ./account.php");
-    }else{
-        echo "erreur";
-    }
+    return mysqli_query($db, $sql);
 }
 
 function _recuppererInfo(mysqli $db)
@@ -161,6 +157,7 @@ function _recuppererInfo(mysqli $db)
     $sql = "SELECT * FROM Utilisateur WHERE login = '$login'";
     return mysqli_query($db, $sql);
 }
+
 
 //
 //
@@ -184,6 +181,20 @@ function _verifCreateur(mysqli $db, string $createur)
     mysqli_stmt_store_result($stmt);
     $ligne = mysqli_stmt_num_rows($stmt);
     if($ligne == 1){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+function _verifNomEve(mysqli $db, string $nom){
+    $nom = mysqli_real_escape_string($db, $nom);
+    $stmt = mysqli_prepare($db, "SELECT * FROM Evenement WHERE nom = ?");
+    mysqli_stmt_bind_param($stmt, "s", $nom);
+    mysqli_execute($stmt);
+    mysqli_stmt_store_result($stmt);
+    $ligne = mysqli_stmt_num_rows($stmt);
+    if($ligne >= 1){
         return true;
     }else{
         return false;
@@ -296,6 +307,15 @@ function _recupererEveByCreat(mysqli $db, string $createur)
 
 }
 
+function _recupererEveByNom(mysqli $db, string $nom){
+    $nom = mysqli_real_escape_string($db, $nom);
+    if(_verifNomEve($db, $nom)){
+        $sql = "SELECT * FROM Evenement WHERE nom = '$nom' ORDER BY dateEvenement";
+    }else{
+        return false;
+    }
+}
+
 
 function _recupererEveByDate(mysqli $db, string $date)
 {
@@ -314,12 +334,12 @@ function _recupererEveOrderData(mysqli $db){
 }
 
 function _recupererEveOrderPartASC(mysqli $db){
-    $sql = "SELECT *, COUNT(*) FROM Evenement INNER JOIN Inscrit ON Evenement.id = Inscrit.idEvenement GROUP BY Evenement.id ORDER BY COUNT(*) ASC";
+    $sql = "SELECT *, COUNT(*) AS count FROM Evenement INNER JOIN Inscrit ON Evenement.id = Inscrit.idEvenement GROUP BY Evenement.id ORDER BY count ASC";
     return mysqli_query($db, $sql);
 }
 
 function _recupererEveOrderPartDESC(mysqli $db){
-    $sql = "SELECT *, COUNT(*) FROM Evenement INNER JOIN Inscrit  ON Evenement.id = Inscrit.idEvenement GROUP BY Evenement.id ORDER BY COUNT(*) DESC";
+    $sql = "SELECT *, COUNT(*) AS count FROM Evenement INNER JOIN Inscrit  ON Evenement.id = Inscrit.idEvenement GROUP BY Evenement.id ORDER BY count DESC";
     return mysqli_query($db, $sql);
 }
 
@@ -327,6 +347,7 @@ function _getCommentaire(mysqli $db, $id){
     $sql = "SELECT comment, loginUtilisateur FROM Commentaire WHERE idEvenement = '$id'";
     return mysqli_query($db, $sql);
 }
+
 
 function _sinscritEve(mysqli $db, $id, string $login){
     $sql = "INSERT INTO Inscrit(loginUtilisateur, idEvenement) VALUE ('$login', '$id')";
