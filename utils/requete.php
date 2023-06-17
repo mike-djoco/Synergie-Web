@@ -316,6 +316,15 @@ function _recupererEveByNom(mysqli $db, string $nom){
     }
 }
 
+function _recupererEveByNomCreat(mysqli $db, string $nom, $createur){
+    $nom = mysqli_real_escape_string($db, $nom);
+    if(_verifNomEve($db, $nom)){
+        $sql = "SELECT * FROM Evenement WHERE nom = '$nom' AND createur = '$createur' ORDER BY dateEvenement";
+    }else{
+        return false;
+    }
+}
+
 
 function _recupererEveByDate(mysqli $db, string $date)
 {
