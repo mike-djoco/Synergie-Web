@@ -5,6 +5,15 @@
 
     $db = _dbConnect();
     $resultat = _recupererEve($db);
+    $id_eve=0;
+
+    if (isset($_SESSION['user_auth'])) {
+        if (isset($_POST["new-commentaire"])) {
+            _commente($db, $_SESSION['login'], $_POST["idEve"], $_POST["new-commentaire"]);
+            header("Location: ./index.php");
+        }
+    }
+
 ?>
 
 <!DOCTYPE html>
@@ -25,11 +34,11 @@
 
         <div class="recherche-card">
             <div class="recherche-side">
-                <div id="form-container">
+                <div id="form-container"><!--
                     <form class="searchbar">
                         <input type="search" name="site-search" placeholder="Rechercher un Evenement ..."/>
                         <button  type="submit"><img src="./img/search.png" alt="Rechercher"></button >
-                    </form>
+                    </form>-->
 
                     <div class="sortby">
                         <p>Trier par : </p>
@@ -66,6 +75,7 @@
                                         <p class="card-creator">'.$row["createur"].'</p>
                                         <p class="card-date">'.$row["dateEvenement"].'</p>
                                         <p class="card-info">'.$row["information"].'</p>
+                                        <p class="card-id hidden">'.$row["id"].'</p>
                                     </a>
                                 ';
                                 $i++;
@@ -102,6 +112,7 @@
                                 <p id="current-creator">Créer par : </p>
                                 <p id="current-date-eve">Il aura lieux le : </p>
                                 <p id="current-information"></p>
+                                <p id="current-idEvent" class="hidden"></p>
                             </div>
                         ';
                     }else{
@@ -109,19 +120,26 @@
                     }
                 ?>
                 <div id="comment-container">
-                    <div class="comment-card">
-                        <p class="comment-name">Frederick CHOUX</p>
-                        <p class="comment-comentaire">J'espere que je pourrais venir a l'Evenement, il a l'air genial</p>
-                        <p class="comment-date">23/01/2023</p>
-                    </div>
-                    <div class="comment-card">
-                        <p class="comment-name">Taha Orteil</p>
-                        <p class="comment-comentaire">C'est quand que livreur il fait partir les orteil pour que je graille</p>
-                        <p class="comment-date">23/04/2023</p>
-                    </div>
+                    <?php
+                        $com_res = _getCommentaire($db, $idEve);
+                        if (mysqli_num_rows($com_res)>0) {
+                            while ($rows = mysqli_fetch_assoc($com_res)) {
+                                echo '
+                                    <div class="comment-card">
+                                        <p class="comment-name">'.$rows['loginUtilisateur'].'</p>
+                                        <p class="comment-comentaire">'.$rows['comment'].'</p>
+                                    </div>
+                                ';
+                            }
+                        }
+                    ?>
+
                     <form method="POST">
                         <input type="text" name="new-commentaire" id="new-commentaire" placeholder='Entre votre commentaire' required autofocus>
-                        <input type="submit" value="Envoyer le Commentaire">
+                        <?php
+                        echo '<input type="hidden" id="idEve" name="idEve" value="">';
+                        ?>
+                        <button type="submit">Envoyer le Commentaire</button>
                     </form>
                 </div>
             </article>

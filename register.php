@@ -7,7 +7,7 @@
     $prenom ="";
     $nom="";
     $bday="";
-
+    
     if (isset($_POST['prenom'])) {
         $prenom = htmlentities($_POST['prenom']);
         $nom = htmlentities($_POST['nom']);
@@ -17,13 +17,14 @@
         }
     }
     
-    //echo $prenom. " ".$nom." ".$bday;
     if (isset($_POST['login'])) {
         $db = _dbConnect();
         echo $prenom. " ".$nom." ".$bday;
+
         $login = htmlentities($_POST['login']);
         $mail = htmlentities($_POST['mail']);
         $pswrd = htmlentities($_POST['pswrd']);
+
         $pswrd = password_hash($pswrd, PASSWORD_DEFAULT);
         $prenom = $_POST['prenom'];
 
@@ -42,8 +43,9 @@
             echo "<alert>('Incription impossible')</alert>";
             mysqli_close($db);
         }
+        
+       
     }
-
 
 ?>
 <!DOCTYPE html>

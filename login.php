@@ -4,6 +4,7 @@
 
         $login = htmlentities($_POST['login']);
         $pswrd = htmlentities($_POST['pswrd']);
+        //$pswrd = password_hash($pswrd, PASSWORD_ARGON2I);
 
         $sql = "SELECT login, paswrd FROM Utilisateur WHERE login = '$login' ";
         $result = mysqli_query($db, $sql);

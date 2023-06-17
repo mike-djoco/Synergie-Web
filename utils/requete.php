@@ -323,6 +323,10 @@ function _recupererEveOrderPartDESC(mysqli $db){
     return mysqli_query($db, $sql);
 }
 
+function _getCommentaire(mysqli $db, $id){
+    $sql = "SELECT comment, loginUtilisateur FROM Commentaire WHERE idEvenement = '$id'";
+    return mysqli_query($db, $sql);
+}
 
 function _sinscritEve(mysqli $db, $id, string $login){
     $sql = "INSERT INTO Inscrit(loginUtilisateur, idEvenement) VALUE ('$login', '$id')";
@@ -364,11 +368,10 @@ function _supprimerEve(mysqli $db, $id){
 //
 //
 
-function _commente(mysqli $db, $id, string $login, string $comment){
+function _commente(mysqli $db, string $login, $idEve, string $comment){
     $comment = strip_tags($comment);
-    $stmt = mysqli_prepare($db, "INSERT INTO Commentaire(loginUtilisateur, idEvenement, commentaire) VALUES (?,?,?)");
-    mysqli_stmt_bind_param($stmt, "sss", $login, $id, $comment);
-    if(mysqli_execute($stmt)){
+    $sql = "INSERT INTO Commentaire(loginUtilisateur, idEvenement, comment) VALUE ('$login', '$idEve', '$comment')";
+    if(mysqli_query($db, $sql)){
         return true;
     }else{
         return false;

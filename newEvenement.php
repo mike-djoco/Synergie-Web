@@ -59,7 +59,7 @@
                 <input type="radio" name="accreditation" id="sympathisant" value="sympathisant">
                 <label for="sympathisant">Sympathisant</label>
             </div>
-
+            
             <input type="hidden" name="cle" value="<?php echo $_SESSION['cle']; ?>">
             
             <button type="submit">Enregistrer l'Evenement</button>

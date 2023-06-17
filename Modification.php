@@ -13,6 +13,7 @@ include "connecter.php";
 // (pour facilite les scripts php et ne pas avoir a convertir les strings en int)
 session_start();
 $db = _dbConnect();
+
 if (isset($_SESSION['user_auth'])) { // user_auth est crée au moment de la connection de l'utilisateur.
 
     if (isset($_POST['password']) && isset($_POST['password2']) && isset($_POST['ancienMDP']) && isset($_POST['cle'])) {
@@ -156,7 +157,7 @@ if (isset($_SESSION['user_auth'])) { // user_auth est crée au moment de la conn
                                 <input type="radio" name="role" id="sympathisant" value="sympathisant">
                                 <label for="sympathisant">Sympathisant</label>
                             </div>
-
+                            
                             <input type="hidden" name="cle" value="<?php echo $cle; ?>">
 
                             <button type="submit">Effectué le changement</button>
@@ -176,6 +177,7 @@ if (isset($_SESSION['user_auth'])) { // user_auth est crée au moment de la conn
                             </div>
 
                             <input type="hidden" name="cle" value="<?php echo $cle; ?>">
+
                             <button type="submit">Effectué le changement</button>
                         </form>
                         ';
