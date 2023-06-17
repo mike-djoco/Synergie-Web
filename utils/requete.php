@@ -305,7 +305,7 @@ function _recupererEveOrderPartASC(mysqli $db){
 }
 
 function _recupererEveOrderPartDESC(mysqli $db){
-    $sql = "SELECT *, COUNT(*) FROM Evenement INNER JOIN   ON Evenement.id = Inscrit.idEvenement GROUP BY Evenement.id ORDER BY COUNT(*) DESC";
+    $sql = "SELECT *, COUNT(*) FROM Evenement INNER JOIN Inscrit  ON Evenement.id = Inscrit.idEvenement GROUP BY Evenement.id ORDER BY COUNT(*) DESC";
     return mysqli_query($db, $sql);
 }
 
