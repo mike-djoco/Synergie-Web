@@ -15,20 +15,22 @@ function _changerMPD(mysqli $db, string $oldMpd, string $newMdp, string $redirec
     // recupere le mot de passe pour verifier que la personne qui change le mot de passe 
     // est bien l'utilisateur connecté
     $oldMpd = mysqli_real_escape_string($db, $oldMpd);
+    $oldMpd = htmlentities($oldMpd);
     $newMdp = mysqli_real_escape_string($db, $newMdp);
+    $newMdp = password_hash($newMdp, PASSWORD_DEFAULT);
     $login = $_SESSION['login'];
     $sql = "SELECT paswrd FROM Utilisateur WHERE login = '$login'";
     $req = mysqli_query($db, $sql);
     $res = mysqli_fetch_assoc($req); // mot de passe stocker
 
     // si l'utilisateur a entrer le bon ancien mot de passe alors on met a jour le mot de passe
-    if ($oldMpd == $res['paswrd']) {
+    if (password_verify($oldMpd, $res['paswrd'])) {
         $stmt = mysqli_prepare($db, "UPDATE Utilisateur SET paswrd=? WHERE login = '$login'");
         mysqli_stmt_bind_param($stmt, "s", $newMdp);
         if (mysqli_execute($stmt)) {
             header("Location: " . $redirect);
         } else {
-            die("Erreur: $sql");
+            return false;
         }
     } else {
         return false;
@@ -39,7 +41,9 @@ function _changerMail(mysqli $db, string $oldMail, string $newMail, string $redi
 {
     // recuper l'ancien mail et comparer avec ce qu'a entrer l'utilisateur.
     $oldMail = mysqli_real_escape_string($db, $oldMail);
+    $oldMail = htmlentities($oldMail);
     $newMail = mysqli_real_escape_string($db, $newMail);
+    $newMail = htmlentities($newMail);
     $login = $_SESSION['login'];
     $sql = "SELECT mail FROM Utilisateur WHERE login='$login'";
     $req = mysqli_query($db, $sql);
@@ -52,7 +56,7 @@ function _changerMail(mysqli $db, string $oldMail, string $newMail, string $redi
         if (mysqli_execute($stmt)) {
             header("Location: " . $redirect);
         } else {
-            die("Erreur: $sql");
+            return false;
         }
     } else {
         return false;
@@ -118,7 +122,9 @@ function _changerBday(mysqli $db, string $date, string $redirect)
 function _changerInfo(mysqli $db, string $prenom, string $nom, string $date)
 {
     $prenom = mysqli_real_escape_string($db, $prenom);
+    $prenom = htmlentities($prenom);
     $nom = mysqli_real_escape_string($db, $nom);
+    $nom = htmlentities($nom);
     $date = mysqli_real_escape_string($db, $date);
     $login = $_SESSION['login'];
     $stmt = mysqli_prepare($db, "UPDATE Utilisateur SET prenom = ?, nom = ?, bday = ? WHERE login = '$login' ");
@@ -137,11 +143,16 @@ function _creerUtilisateur(mysqli $db, string $login, string $mail, string $pswr
     $pswrd = mysqli_real_escape_string($db, $pswrd);
     //$pswrd = password_hash($pswrd, PASSWORD_DEFAULT);
     $prenom = mysqli_real_escape_string($db, $prenom);
+    $prenom = htmlentities($prenom);
     $nom = mysqli_real_escape_string($db, $nom);
+    $nom = htmlentities($nom);
     $bday = mysqli_real_escape_string($db, $bday);
     $sql = "INSERT INTO Utilisateur(login, mail, paswrd, prenom, nom, bday, role) VALUES('$login', '$mail', '$pswrd', '$prenom', '$nom', '$bday', '$role')";
-    mysqli_query($db, $sql);
-    header("Location: ./index.php");
+    if(mysqli_query($db, $sql)){
+        header("Location: ./account.php");
+    }else{
+        echo "erreur";
+    }
 }
 
 function _recuppererInfo(mysqli $db)
@@ -238,8 +249,11 @@ function _getOneEvenement(mysqli $db, string $nom, string $createur){
 function _ajouterEvenement(mysqli $db, string $nomEv, string $date, string $information, string $accreditation)
 {
     $nomEv = mysqli_real_escape_string($db, $nomEv);
+    $nomEv = strip_tags($nomEv);
     $date = mysqli_real_escape_string($db, $date);
+    $date = strip_tags($date);
     $information = mysqli_real_escape_string($db, $information);
+    $information = htmlentities($information);
     $accreditation = mysqli_real_escape_string($db, $accreditation);
     $info = _recuppererInfo($db);
     $info = mysqli_fetch_assoc($info);
@@ -351,8 +365,9 @@ function _supprimerEve(mysqli $db, $id){
 //
 
 function _commente(mysqli $db, $id, string $login, string $comment){
+    $comment = strip_tags($comment);
     $stmt = mysqli_prepare($db, "INSERT INTO Commentaire(loginUtilisateur, idEvenement, commentaire) VALUES (?,?,?)");
-    mysqli_stmt_bind_param($stmt, "sss", $id, $login, $comment);
+    mysqli_stmt_bind_param($stmt, "sss", $login, $id, $comment);
     if(mysqli_execute($stmt)){
         return true;
     }else{

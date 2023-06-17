@@ -13,10 +13,9 @@ include "connecter.php";
 // (pour facilite les scripts php et ne pas avoir a convertir les strings en int)
 session_start();
 $db = _dbConnect();
-
 if (isset($_SESSION['user_auth'])) { // user_auth est crée au moment de la connection de l'utilisateur.
 
-    if (isset($_POST['password']) && isset($_POST['password2']) && isset($_POST['ancienMDP'])) {
+    if (isset($_POST['password']) && isset($_POST['password2']) && isset($_POST['ancienMDP']) && isset($_POST['cle'])) {
         if ($_POST['password'] === $_POST['password2']) {
             $erreur = _changerMPD($db, $_POST['ancienMDP'], $_POST['password'], "account.php");
         } else {
@@ -24,7 +23,7 @@ if (isset($_SESSION['user_auth'])) { // user_auth est crée au moment de la conn
         }
     }
 
-    if (isset($_POST['mail']) && isset($_POST['ancienMail']) && isset($_POST['mail2'])) {
+    if (isset($_POST['mail']) && isset($_POST['ancienMail']) && isset($_POST['mail2']) && isset($_POST['cle'])) {
 
         if ($_POST['mail'] === $_POST['mail2']) {
             $erreur = _changerMail($db, $_POST['ancienMail'], $_POST['mail'], "account.php");
@@ -33,11 +32,11 @@ if (isset($_SESSION['user_auth'])) { // user_auth est crée au moment de la conn
         }
     }
 
-    if (isset($_POST['role'])) {
+    if (isset($_POST['role']) && isset($_POST['cle'])) {
        $erreur =  _changerRole($db, $_POST['role'], "account.php");
     }
 
-    if (isset($_POST['nom']) && isset($_POST['prenom']) && isset($_POST['bday'])){
+    if (isset($_POST['nom']) && isset($_POST['prenom']) && isset($_POST['bday']) && isset($_POST['cle'])){
         $erreur = _changerInfo($db, $_POST['prenom'], $_POST['nom'], $_POST['bday']);
     }
 
@@ -85,6 +84,8 @@ if (isset($_SESSION['user_auth'])) { // user_auth est crée au moment de la conn
 
                 <input type="date" id="bday" name="bday" placeholder="Nouvelle Date de Naissance" >
 
+                <input type="hidden" name="cle" value="<?php echo $cle; ?>">
+
                 <button type="submit">Modifier mes Informations</button>
             </form>
 
@@ -98,6 +99,8 @@ if (isset($_SESSION['user_auth'])) { // user_auth est crée au moment de la conn
 
                 <input type="password" id="password2" name="password2" placeholder="Confirmer le mot de passe" required>
 
+                <input type="hidden" name="cle" value="<?php echo $cle; ?>">
+
                 <button type="submit">Effectué le changement</button>
             </form>
 
@@ -110,6 +113,8 @@ if (isset($_SESSION['user_auth'])) { // user_auth est crée au moment de la conn
                 <input type="email" id="mail" name="mail" placeholder="Nouveau mail" required>
 
                 <input type="email" id="mail2" name="mail2" placeholder="Confirmer le mail" required>
+
+                <input type="hidden" name="cle" value="<?php echo $cle; ?>">
 
                 <button type="submit">Effectué le changement</button>
             </form>
@@ -133,6 +138,8 @@ if (isset($_SESSION['user_auth'])) { // user_auth est crée au moment de la conn
                                 <label for="sympathisant">Sympathisant</label>
                             </div>
 
+                            <input type="hidden" name="cle" value="<?php echo $cle; ?>">
+
                             <button type="submit">Effectué le changement</button>
                         </form>
                         ';
@@ -150,6 +157,8 @@ if (isset($_SESSION['user_auth'])) { // user_auth est crée au moment de la conn
                                 <label for="sympathisant">Sympathisant</label>
                             </div>
 
+                            <input type="hidden" name="cle" value="<?php echo $cle; ?>">
+
                             <button type="submit">Effectué le changement</button>
                         </form>
                         ';
@@ -165,6 +174,8 @@ if (isset($_SESSION['user_auth'])) { // user_auth est crée au moment de la conn
                                     <input type="radio" name="role" id="adhérant" value="adhérant" >
                                     <label for="adhérant">Adhérant</label>
                             </div>
+
+                            <input type="hidden" name="cle" value="<?php echo $cle; ?>">
                             <button type="submit">Effectué le changement</button>
                         </form>
                         ';
@@ -190,6 +201,8 @@ if (isset($_SESSION['user_auth'])) { // user_auth est crée au moment de la conn
                             <input type="radio" name="role" id="sympathisant" value="sympathisant">
                             <label for="sympathisant">Sympathisant</label>
                         </div>
+
+                        <input type="hidden" name="cle" value="<?php echo $cle; ?>">
 
                         <button type="submit">Effectué le changement</button>
                     </form>

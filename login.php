@@ -4,7 +4,6 @@
 
         $login = htmlentities($_POST['login']);
         $pswrd = htmlentities($_POST['pswrd']);
-        //$pswrd = password_hash($pswrd, PASSWORD_ARGON2I);
 
         $sql = "SELECT login, paswrd FROM Utilisateur WHERE login = '$login' ";
         $result = mysqli_query($db, $sql);
@@ -13,10 +12,10 @@
                 $Slogin = $row["login"];
                 $Spswrd = $row["paswrd"];
             }
-            if ($Slogin != $login || $Spswrd != $pswrd) {
+            if ($Slogin != $login || !password_verify($pswrd, $Spswrd)) {
                 echo "<script>alert('connection impossible')</script>";
             }else{
-                if ($Slogin == $login && $Spswrd == $pswrd) {
+                if ($Slogin == $login && password_verify($pswrd, $Spswrd)) {
                     //echo "<script>alert('connection reussi')</script>";
                     $sql = "SELECT role FROM Utilisateur WHERE login = '$login'";
                     $res = mysqli_query($db, $sql);
@@ -26,6 +25,9 @@
                     $_SESSION['user_auth'] = true;
                     $_SESSION['login'] = $Slogin;
                     $_SESSION['role'] = $Srole;
+                    $cle = "MaSuperCleSecreteQueTuNeTrouevraPas";
+                    $cleHash = hash_hmac("sha256", $cle, "MaCle");
+                    $_SESSION['cle'] = $cleHash;
                     header("Location: account.php");
                 }
             }

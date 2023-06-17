@@ -4,6 +4,9 @@
     include "utils/MotDePasse.php";
     include "utils/requete.php";
     $step1 = false;
+    $prenom ="";
+    $nom="";
+    $bday="";
 
     if (isset($_POST['prenom'])) {
         $prenom = htmlentities($_POST['prenom']);
@@ -14,14 +17,15 @@
         }
     }
     
+    //echo $prenom. " ".$nom." ".$bday;
     if (isset($_POST['login'])) {
-        $db = mysqli_connect("dwarves.iut-fbleau.fr","djoco", "djoco", "djoco");
-
+        $db = _dbConnect();
+        echo $prenom. " ".$nom." ".$bday;
         $login = htmlentities($_POST['login']);
         $mail = htmlentities($_POST['mail']);
         $pswrd = htmlentities($_POST['pswrd']);
-
-        //$pswrd = password_hash($pswrd, PASSWORD_ARGON2I);
+        $pswrd = password_hash($pswrd, PASSWORD_DEFAULT);
+        $prenom = $_POST['prenom'];
 
         $sqlLogin = "SELECT login FROM Utilisateur WHERE login = '$login'";
         $resLogin = mysqli_query($db, $sqlLogin);
@@ -38,9 +42,8 @@
             echo "<alert>('Incription impossible')</alert>";
             mysqli_close($db);
         }
-        
-       
     }
+
 
 ?>
 <!DOCTYPE html>
@@ -115,6 +118,11 @@
                             echo "<span class='form-item-icon'></span>";
                             echo "<input type='password' name='pswrd' placeholder='Entrer un Mot de Passe' required>";
                         echo "</div>";
+                        echo "<p style='font-size: xx-small; align-self:center;'>minimun 8 caractere, une majuscule, un chiffre, un caractere speciale</p>";
+
+                        echo ' <input type="hidden" name="nom" value="'.$nom.'">';
+                        echo ' <input type="hidden" name="prenom" value="'.$prenom.'">';
+                        echo ' <input type="hidden" name="bday" value="'.$bday.'">';
                         
                         echo "<button type='submit'>Finalisée l'Incription</button>";
                     echo "</form>";

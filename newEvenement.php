@@ -5,7 +5,7 @@
 
     session_start();
 
-    if (isset($_POST['nom'])) {
+    if (isset($_POST['nom']) && hash_equals($_POST['cle'], $_SESSION['cle'])) {
         $db = _dbConnect();
 
         $nom = htmlentities($_POST['nom']);
@@ -59,6 +59,8 @@
                 <input type="radio" name="accreditation" id="sympathisant" value="sympathisant">
                 <label for="sympathisant">Sympathisant</label>
             </div>
+
+            <input type="hidden" name="cle" value="<?php echo $_SESSION['cle']; ?>">
             
             <button type="submit">Enregistrer l'Evenement</button>
         </form>
